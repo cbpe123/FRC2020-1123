@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import java.sql.Time;
 import java.util.logging.Logger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -37,6 +38,13 @@ public class ShooterSubsystem extends SubsystemBase {
   double throttle;
 
   Joystick driverJoystick = new Joystick(1);
+
+  int Time = 0;
+  int TimeSinceBallFire = 0;
+  boolean FireBall = true;
+  boolean BallLoaded = false;
+  int NumberOfBallsFired = 0;
+
   public ShooterSubsystem() {
     // Wipe any prior motor settings
     motorA.configFactoryDefault();
@@ -76,10 +84,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void SpinMotor(double desiredSpeed) {
     // motorSetPoint = desiredSpeed;
-    throttle = (driverJoystick.getThrottle());//*10000;
-    // logger.info("Throttle = " + driverJoystick.getThrottle());
-
-    //  motorA.set(ControlMode.Velocity, motorSetPoint);
     // if(motorA.getSelectedSensorVelocity()<motorSetPoint){
     //   motorA.set(ControlMode.PercentOutput, 1);
     //   motorB.set(ControlMode.PercentOutput, 1);
@@ -89,16 +93,26 @@ public class ShooterSubsystem extends SubsystemBase {
     //   motorB.set(ControlMode.PercentOutput, motorA.getMotorOutputPercent() *0.9);
     // }
     // motorA.set(ControlMode.PercentOutput, 0.7);
-    // motorB.follow(motorA);
-    motorA.set(ControlMode.PercentOutput, motorSetPoint/10000);
-    motorB.set(ControlMode.PercentOutput, motorSetPoint/10000);
-
+    // motorA.set(ControlMode.Velocity, motorSetPoint);
+    // motorB.set(ControlMode.Velocity, motorSetPoint);
+    if(motorA.getSelectedSensorVelocity()< 13000){
+      motorA.set(ControlMode.PercentOutput, 1);
+      motorB.set(ControlMode.PercentOutput, 1);
+    }
+    else{
+      motorA.set(ControlMode.PercentOutput, motorSetPoint/10000);
+      motorB.set(ControlMode.PercentOutput, motorSetPoint/10000);
+    }
 
     subsystemActive = true;
 
     logger.info("Shooter trying to spin at " + motorSetPoint);
     SmartDashboard.putNumber("Shooter Motor 1 RPM ", motorA.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Shooter Motor 2 RPM ", motorB.getSelectedSensorVelocity());
+  }
+  public void LowGoalSpin(){
+    motorA.set(ControlMode.PercentOutput, 0.2);
+    motorB.set(ControlMode.PercentOutput, 0.2);
   }
 
   public void fireBall() {
@@ -111,6 +125,58 @@ public class ShooterSubsystem extends SubsystemBase {
     logger.info("Shooter piston retracted.");
   }
 
+  public void FireBallAndRetract(){
+    if(FireBall == true ) {
+      fireBall();
+      FireBall = false;
+      TimeSinceBallFire = Time;
+      BallLoaded = false; 
+      logger.info("Got to Fire Ball in FireBallAndRetract");
+    }
+    
+    if (Time - TimeSinceBallFire > 60 && BallLoaded == false){
+      LoadBall();
+      NumberOfBallsFired++;
+      BallLoaded = true;
+      SmartDashboard.putNumber("Number Of Balls fired to low goal recently ", NumberOfBallsFired);
+      logger.info("Got to Load Ball in FireBallAndRetract");
+    }
+
+    if(Time - TimeSinceBallFire > 100){
+      FireBall = true;
+      logger.info("Got to fireBall Boolean in FireBallAndRetract" + FireBall);
+    }
+  }
+  public void FireBallAndRetractHigh(){
+    if(FireBall == true ) {
+      fireBall();
+      FireBall = false;
+      TimeSinceBallFire = Time;
+      BallLoaded = false; 
+      logger.info("Got to Fire Ball in FireBallAndRetract");
+    }
+    
+    if (Time - TimeSinceBallFire > 60 && BallLoaded == false){
+      LoadBall();
+      NumberOfBallsFired++;
+      BallLoaded = true;
+      SmartDashboard.putNumber("Number Of Balls fired to low goal recently ", NumberOfBallsFired);
+      logger.info("Got to Load Ball in FireBallAndRetract");
+    }
+
+    if(Time - TimeSinceBallFire > 210){
+      FireBall = true;
+      logger.info("Got to fireBall Boolean in FireBallAndRetract" + FireBall);
+    }
+  }
+  public int getNumberOfBallsFired(){
+    return NumberOfBallsFired;
+  }
+
+  public void ResetNumberOfBallsFired(){
+    NumberOfBallsFired = 0;
+  }
+
   public void Stop() {
     motorA.set(ControlMode.PercentOutput, 0);
     motorB.set(ControlMode.PercentOutput, 0);
@@ -120,6 +186,8 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // TODO: Update dashboard motor speed via NetworkTables
+    Time++;
+    // motorSetPoint =  DashboardControlSystem.getSliderSpeed();
   }
 
   public boolean isActive(){

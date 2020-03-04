@@ -16,6 +16,8 @@ public class IntakeSubsystem extends SubsystemBase {
   private final CANSparkMax intakeMotor = new CANSparkMax(Constants.IntakeMotorCanID, MotorType.kBrushless);
   private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(Constants.IntakePistonPCM,
       Constants.IntakePistonForwardModule, Constants.IntakePistonReverseModule);
+    double Time = 0.0;
+    public double StartTime = 0.0;
 
   public IntakeSubsystem() {
     // TODO: Should we confirm the motor is accessible?
@@ -25,8 +27,29 @@ public class IntakeSubsystem extends SubsystemBase {
   public void Activate() {
     intakeSolenoid.set(Value.kReverse);
     logger.info("Intake extended.");
+    if(Time-StartTime>25){
+      intakeMotor.set(-1);
+      logger.info("Intake activated.");
+    }
+  }
 
-    intakeMotor.set(-0.5);
+  public void resetStartTime(){
+    StartTime = Time;
+  }
+
+  public void IntakeSlow(){
+    intakeSolenoid.set(Value.kReverse);
+    logger.info("Intake extended.");
+
+    intakeMotor.set(-0.35);
+    logger.info("Intake activated.");
+  }
+
+  public void IntakeSlowHigh(){
+    intakeSolenoid.set(Value.kReverse);
+    logger.info("Intake extended.");
+
+    intakeMotor.set(-0.25);
     logger.info("Intake activated.");
   }
 
@@ -34,10 +57,20 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.stopMotor();
     intakeSolenoid.set(Value.kForward);
     logger.info("Intake stopped and retracted.");
+    Time = 0;
+  }
+
+  public void RetractPiston(){
+    intakeSolenoid.set(Value.kReverse);
+  }
+
+  public void ExtendPiston(){
+    intakeSolenoid.set(Value.kForward);
   }
 
   @Override
   public void periodic() {
     // TODO: Update dashboard motor speed via NetworkTables
+    Time++;
   }
 }
