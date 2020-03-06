@@ -33,10 +33,14 @@ public class JoystickControlSystem {
     JoystickButton fieldOrientedButton = new JoystickButton(driverJoystick, 3);
     fieldOrientedButton.whenHeld(new RunCommand(() -> driveSubsystem.FieldCartesian(driverJoystick.getX(),
       -driverJoystick.getY(), driverJoystick.getZ(), (1 - driverJoystick.getThrottle()) / 2, Gyro.getAngle()), driveSubsystem));
+    
+    JoystickButton IntakeSpeed = new JoystickButton(driverJoystick, 4);
+    IntakeSpeed.toggleWhenActive(new RunCommand(() -> driveSubsystem.pivotCartesian(driverJoystick.getX(),
+      -driverJoystick.getY(), driverJoystick.getZ(), 0.45), driveSubsystem));
 
     // TODO: Move to the secondary driver control system
-    // Binds button 3 to control Limelight LEDs
-    JoystickButton ledButton = new JoystickButton(driverJoystick, 3);
+    // Binds button 5 to control Limelight LEDs
+    JoystickButton ledButton = new JoystickButton(driverJoystick, 5);
     ledButton.whenPressed(new LimelightCommand(new LimelightSubsystem()));
 
     logger.info("Driver button 2 bound to activate intake.");
@@ -45,16 +49,16 @@ public class JoystickControlSystem {
 
     // TODO: Move to the secondary driver control system
     // Shooter Button bindings
-    logger.info("Driver button 7 bound to load shooter.");
-    JoystickButton shooterLoadButton = new JoystickButton(driverJoystick, 7);    
-    shooterLoadButton.whenPressed(new ShooterLoadCommand());
+    // logger.info("Driver button 7 bound to load shooter.");
+    // JoystickButton shooterLoadButton = new JoystickButton(driverJoystick, 7);    
+    // shooterLoadButton.whenPressed(new ShooterLoadCommand());
     
-    logger.info("Driver button 8 bound to spin shooter.");
-    JoystickButton activateMotorsButton = new JoystickButton(driverJoystick, 8);
+    logger.info("Driver button 7 bound to spin shooter.");
+    JoystickButton activateMotorsButton = new JoystickButton(driverJoystick, 7);
     activateMotorsButton.toggleWhenActive(new SpinShooterMotorsCommand());  
     
-    logger.info("Driver button 9 bound to shoot.");
-    JoystickButton shootButton = new JoystickButton(driverJoystick, 9);    
+    logger.info("Driver button 8 bound to shoot.");
+    JoystickButton shootButton = new JoystickButton(driverJoystick, 8);    
     shootButton.whenPressed(new ShootOneBallCommand());
   }
 

@@ -14,8 +14,7 @@ public class GyroSubsystem extends SubsystemBase {
     AHRS Gyro = new AHRS();
 
   public GyroSubsystem() {
-
-  }
+    }
 
   public double getAngle() {
     return Gyro.getAngle();

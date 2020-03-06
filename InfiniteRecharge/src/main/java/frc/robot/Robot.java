@@ -3,6 +3,7 @@ package frc.robot;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -111,6 +112,7 @@ public class Robot extends TimedRobot {
     }
     Shuffleboard.selectTab("Teleop");
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").forceSetNumber(1);
+    RobotContainer.getInstance().Climber.setStartTime(Timer.getFPGATimestamp());
   }
 
   /**

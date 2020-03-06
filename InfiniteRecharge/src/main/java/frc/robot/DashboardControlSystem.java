@@ -36,6 +36,7 @@ public class DashboardControlSystem {
     teleopTab.add("Limelight", new LimelightCommand(new LimelightSubsystem()));
     teleopTab.add("Intake Extend", new ExtendIntakePiston());
     teleopTab.add("Intake Retract", new RetractIntakePiston());
+    teleopTab.add("Calibrate Gyro", new CalibrateGyro());
     ShuffleboardLayout motorControl = teleopTab.getLayout("Motor Control", BuiltInLayouts.kList)
       .withPosition(0, 0).withSize(2, 2)
       .withProperties(Map.of("Label Position", "HIDDEN"));
@@ -118,7 +119,7 @@ public class DashboardControlSystem {
   }
 
   public static void PutIsBox(boolean boo){
-    ShuffleboardTab teleopTab = Shuffleboard.getTab("Teleop");
-    teleopTab.add("Limelight Box", boo);
+    // ShuffleboardTab teleopTab = Shuffleboard.getTab("Teleop");
+    // teleopTab.add("Limelight Box", boo);
   }
 }

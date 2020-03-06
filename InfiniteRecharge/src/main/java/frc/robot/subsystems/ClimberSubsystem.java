@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 
 import frc.robot.RobotContainer;
-
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -109,7 +108,9 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void OpenWinch(){
-    ClimbSolenoid.set(Value.kForward);
+    // if(Timer.getFPGATimestamp()-StartTime > 89){
+      ClimbSolenoid.set(Value.kForward);
+    // }
   }  
   
   public void CloseWinch(){
@@ -127,9 +128,10 @@ public class ClimberSubsystem extends SubsystemBase {
     // TODO: Update dashboard motor speed via NetworkTables
     SmartDashboard.putNumber("Climber Motor 1 RPM ", motorAEncoder.getVelocity());
     SmartDashboard.putNumber("Climber Motor 2 RPM ", motorBEncoder.getVelocity());
-    if(Timer.getFPGATimestamp()-StartTime>=147){
+    if(Timer.getFPGATimestamp()-StartTime>=118){
       CloseWinch();
     }
+    
     SmartDashboard.putNumber("Calculated match time", Timer.getFPGATimestamp()-StartTime);
     // logger.info("In Climber subsystem periodic");
   }
@@ -144,5 +146,9 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void setSpeed(double desiredSpeed){
     this.motorSetPoint = desiredSpeed;
+  }
+
+  public void setStartTime(double time){
+    StartTime = time;
   }
 }
