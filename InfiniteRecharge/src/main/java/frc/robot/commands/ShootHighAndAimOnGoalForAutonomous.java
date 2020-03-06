@@ -52,18 +52,16 @@ public class ShootHighAndAimOnGoalForAutonomous extends CommandBase {
   public void execute() {
     time++;
     RobotContainer.getInstance().shooter.SpinMotor(7200);
-    if(RobotContainer.getInstance().Gyro.getAngle() < 60 && RobotContainer.getInstance().Gyro.getAngle() > -60
-     && RobotContainer.getInstance().Limelight.ifBox() == true){
-      if(Aim.isFinished() == false){
-        Aim.execute();
-      }
-      else{
-       if(time>50){
-          RobotContainer.getInstance().shooter.FireBallAndRetractHigh();
-        }  
-      }
+    if(Aim.isFinished() == false){
+      Aim.execute();
+    }
+    if(RobotContainer.getInstance().Limelight.ifBox() == false || Aim.isFinished() == true){
+      if(time>50){
+        RobotContainer.getInstance().shooter.FireBallAndRetractHigh();
+      }  
     }
   }
+  
 
   // Called once the command ends or is interrupted.
   @Override

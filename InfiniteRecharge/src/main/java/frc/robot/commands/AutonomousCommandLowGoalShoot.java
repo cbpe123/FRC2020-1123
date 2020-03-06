@@ -7,10 +7,12 @@
 
 package frc.robot.commands;
 
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.MecanumDriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 // import jdk.javadoc.internal.tool.Start;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import java.util.logging.Logger;
@@ -24,6 +26,7 @@ public class AutonomousCommandLowGoalShoot extends CommandBase {
     private final Logger logger = Logger.getLogger(this.getClass().getName());
     double StartTime;
     boolean InitShoot = false;
+    boolean GyroCalibrated = false;
 
     /**
      * Creates a new ExampleCommand.
@@ -34,6 +37,7 @@ public class AutonomousCommandLowGoalShoot extends CommandBase {
     m_subsystemDrive = subsystem1;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem1);
+    addRequirements(RobotContainer.getInstance().Gyro);
     StartTime = Timer.getFPGATimestamp();
     
   }
@@ -53,13 +57,17 @@ public class AutonomousCommandLowGoalShoot extends CommandBase {
     }
     if((Timer.getFPGATimestamp()-StartTime)<4){
       // logger.info("in autonomous command");
-      m_subsystemDrive.driveCartesian(0, 5, 0, 0.25);
+      m_subsystemDrive.driveCartesian(0, 1, 0, 0.25);
     }
     else if((Timer.getFPGATimestamp()-StartTime)<12){
       shootLow.execute(); 
+      if(GyroCalibrated == false){
+        RobotContainer.getInstance().Gyro.calibrateGyro();
+        GyroCalibrated = true;
+      }
     }
     else {
-      m_subsystemDrive.driveCartesian(-5, 0, 0, 0.25);
+      m_subsystemDrive.driveCartesian(-1, 0, 0, 0.25);
       shootLow.end(true);
     }
   }

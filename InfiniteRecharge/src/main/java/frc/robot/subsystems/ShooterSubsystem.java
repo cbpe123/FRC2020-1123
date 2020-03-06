@@ -72,10 +72,10 @@ public class ShooterSubsystem extends SubsystemBase {
      */
 
     // Configure intial PID values
-    motorA.config_kF(0, 1, ConfigTimeOut);
-    motorA.config_kP(0, 0, ConfigTimeOut);
-    motorA.config_kI(0, 0, ConfigTimeOut);
-    motorA.config_kD(0, 0, ConfigTimeOut);
+    // motorA.config_kF(0, 1, ConfigTimeOut);
+    // motorA.config_kP(0, 0, ConfigTimeOut);
+    // motorA.config_kI(0, 0, ConfigTimeOut);
+    // motorA.config_kD(0, 0, ConfigTimeOut);
 
     motorA.configOpenloopRamp(0.4);
     motorB.configOpenloopRamp(0.4);
@@ -84,15 +84,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void SpinMotor(double desiredSpeed) {
     // motorSetPoint = desiredSpeed;
-    // if(motorA.getSelectedSensorVelocity()<motorSetPoint){
-    //   motorA.set(ControlMode.PercentOutput, 1);
-    //   motorB.set(ControlMode.PercentOutput, 1);
-    // }
-    // else{
-    //   motorA.set(ControlMode.PercentOutput, motorA.getMotorOutputPercent() *0.9);
-    //   motorB.set(ControlMode.PercentOutput, motorA.getMotorOutputPercent() *0.9);
-    // }
-    // motorA.set(ControlMode.PercentOutput, 0.7);
     // motorA.set(ControlMode.Velocity, motorSetPoint);
     // motorB.set(ControlMode.Velocity, motorSetPoint);
     if(motorA.getSelectedSensorVelocity()< 13000){
@@ -103,6 +94,15 @@ public class ShooterSubsystem extends SubsystemBase {
       motorA.set(ControlMode.PercentOutput, motorSetPoint/10000);
       motorB.set(ControlMode.PercentOutput, motorSetPoint/10000);
     }
+
+    // if(motorA.getSelectedSensorVelocity()<motorSetPoint){
+    //   motorA.set(ControlMode.PercentOutput, motorA.getMotorOutputPercent() *1.1);
+    //   motorB.set(ControlMode.PercentOutput, motorA.getMotorOutputPercent() *1.1);
+    // }
+    // else{
+    //   motorA.set(ControlMode.PercentOutput, motorA.getMotorOutputPercent() *0.9);
+    //   motorB.set(ControlMode.PercentOutput, motorA.getMotorOutputPercent() *0.9);
+    // }
 
     subsystemActive = true;
 

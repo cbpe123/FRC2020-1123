@@ -59,7 +59,7 @@ public class AutonomousCommandLowGoalShootAndMoveMore extends CommandBase {
     }
     if((Timer.getFPGATimestamp()-StartTime)<4){
       // logger.info("in autonomous command");
-      m_subsystemDrive.driveCartesian(0, 5, 0, 0.25);
+      m_subsystemDrive.driveCartesian(0, 1, 0, 0.25);
     }
     else if(shootLow.isFinished() == false){
       shootLow.execute();
@@ -67,7 +67,7 @@ public class AutonomousCommandLowGoalShootAndMoveMore extends CommandBase {
       StartTime2 = Timer.getFPGATimestamp(); 
     }
     else if(Timer.getFPGATimestamp()-StartTime2<2){
-      m_subsystemDrive.FieldCartesian(0, -5, 0, 0.5, RobotContainer.getInstance().Gyro.getAngle());
+      m_subsystemDrive.FieldCartesian(0, -1, 0, 0.5, RobotContainer.getInstance().Gyro.getAngle());
       shootLow.end(true);
     }
     else if(Timer.getFPGATimestamp()-StartTime3 < 3){

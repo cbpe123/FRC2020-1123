@@ -33,10 +33,10 @@ public class DashboardControlSystem {
     // .getEntry();
 
     ShuffleboardTab teleopTab = Shuffleboard.getTab("Teleop");
-    teleopTab.add("Limelight", new LimelightCommand(new LimelightSubsystem()));
-    teleopTab.add("Intake Extend", new ExtendIntakePiston());
-    teleopTab.add("Intake Retract", new RetractIntakePiston());
-    teleopTab.add("Calibrate Gyro", new CalibrateGyro());
+    // teleopTab.add("Limelight", new LimelightCommand(new LimelightSubsystem()));
+    // teleopTab.add("Intake Extend", new ExtendIntakePiston());
+    // teleopTab.add("Intake Retract", new RetractIntakePiston());
+    // teleopTab.add("Calibrate Gyro", new CalibrateGyro());
     ShuffleboardLayout motorControl = teleopTab.getLayout("Motor Control", BuiltInLayouts.kList)
       .withPosition(0, 0).withSize(2, 2)
       .withProperties(Map.of("Label Position", "HIDDEN"));
@@ -46,7 +46,7 @@ public class DashboardControlSystem {
     motorControl.add("Shooter Motors Stop", new StopShooterMotorsCommand());
     
     ShuffleboardLayout motorSpeed = teleopTab.getLayout("Motor Speed", BuiltInLayouts.kList)
-      .withPosition(2, 0).withSize(2, 2)
+      .withPosition(2, 0).withSize(2, 3)
       .withProperties(Map.of("Label Position", "HIDDEN"));
 
     // motorSpeed.add("Increase Shooter Motor Speed 50", new IncreaseShooterMotorSpeed50());
@@ -65,7 +65,7 @@ public class DashboardControlSystem {
       .getEntry();
 
     ShuffleboardLayout ramControl = teleopTab.getLayout("Ball Ram", BuiltInLayouts.kList)
-      .withPosition(4, 0).withSize(2, 2)
+      .withPosition(4, 0).withSize(2, 3)
       .withProperties(Map.of("Label Position", "HIDDEN"));
 
     ramControl.add("Shoot", new ShootOneBallCommand());
@@ -75,6 +75,16 @@ public class DashboardControlSystem {
     ramControl.add("Shoot High Goal All", new ShootCommand());
     ramControl.add("Line Up on goal", new LineUpOnGoal());
     ramControl.add("Rotate to Goal", new RotateToGoal());
+    ramControl.add("Shoot High And Rotate to goal", new ShootHighAndAimOnGoal());
+
+    ShuffleboardLayout Misc = teleopTab.getLayout("Misc", BuiltInLayouts.kList)
+      .withPosition(6, 0).withSize(2, 2)
+      .withProperties(Map.of("Label Position", "HIDDEN"));
+
+    Misc.add("Limelight", new LimelightCommand(new LimelightSubsystem()));
+    Misc.add("Intake Extend", new ExtendIntakePiston());
+    Misc.add("Intake Retract", new RetractIntakePiston());
+    Misc.add("Calibrate Gyro", new CalibrateGyro());
 
     ShuffleboardTab endgameTab = Shuffleboard.getTab("Endgame");
     endgameTab.add("Deploy hook", false);
@@ -83,7 +93,7 @@ public class DashboardControlSystem {
     endgameTab.add("Start Climber Motors Together Up" , new StartClimberMotorsTogetherUpCommand());
     endgameTab.add("Stop Climber Motors Together" , new StopClimberMotorsTogetherCommand());
     endgameTab.add("Start Climber Motors Together Down" , new StartClimberMotorsTogetherDownCommand());
-    endgameTab.add("Start Climber Motors Together Down Slow" , new StartClimberMotorsTogetherDownSlowCommand());
+    // endgameTab.add("Start Climber Motors Together Down Slow" , new StartClimberMotorsTogetherDownSlowCommand());
     endgameTab.add("Start Left Climber Up" , new StartClimberMotorAUpCommand());
     endgameTab.add("Stop Left Climber" , new StopClimberMotorACommand());
     endgameTab.add("Start Left Climber Down" , new StartClimberMotorADownCommand());
@@ -119,7 +129,6 @@ public class DashboardControlSystem {
   }
 
   public static void PutIsBox(boolean boo){
-    // ShuffleboardTab teleopTab = Shuffleboard.getTab("Teleop");
-    // teleopTab.add("Limelight Box", boo);
+    SmartDashboard.putBoolean("Limelight Box", boo);
   }
 }

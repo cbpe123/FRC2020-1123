@@ -27,6 +27,6 @@ public class GyroSubsystem extends SubsystemBase {
   }
 
   public void calibrateGyro(){
-    Gyro.calibrate();
+    Gyro.reset();
   }
 }
