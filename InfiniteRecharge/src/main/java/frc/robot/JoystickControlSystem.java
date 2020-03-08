@@ -22,21 +22,21 @@ public class JoystickControlSystem {
     GyroSubsystem Gyro = RobotContainer.getInstance().Gyro;
 
     logger.info("Mecanum drive subsystem defaulting to driveCartesian.");
-    driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.driveCartesian(driverJoystick.getX(),
-        -driverJoystick.getY(), driverJoystick.getZ()/2, (1 - driverJoystick.getThrottle()) / 2), driveSubsystem));
+    driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.driveCartesian(-driverJoystick.getX(),
+        driverJoystick.getY(), driverJoystick.getZ()/2, (1 - driverJoystick.getThrottle()) / 2), driveSubsystem));
     
     logger.info("Driver button 1 bound to pivotCartesian");
     JoystickButton driveModeButton = new JoystickButton(driverJoystick, 1);
-    driveModeButton.whenHeld(new RunCommand(() -> driveSubsystem.pivotCartesian(driverJoystick.getX(),
-        -driverJoystick.getY(), driverJoystick.getZ(), (1 - driverJoystick.getThrottle()) / 2), driveSubsystem));
+    driveModeButton.whenHeld(new RunCommand(() -> driveSubsystem.pivotCartesian(-driverJoystick.getX(),
+        driverJoystick.getY(), driverJoystick.getZ(), (1 - driverJoystick.getThrottle()) / 2), driveSubsystem));
 
     JoystickButton fieldOrientedButton = new JoystickButton(driverJoystick, 3);
-    fieldOrientedButton.whenHeld(new RunCommand(() -> driveSubsystem.FieldCartesian(driverJoystick.getX(),
-      -driverJoystick.getY(), driverJoystick.getZ(), (1 - driverJoystick.getThrottle()) / 2, Gyro.getAngle()), driveSubsystem));
+    fieldOrientedButton.whenHeld(new RunCommand(() -> driveSubsystem.FieldCartesian(-driverJoystick.getX(),
+      driverJoystick.getY(), driverJoystick.getZ(), (1 - driverJoystick.getThrottle()) / 2, Gyro.getAngle()), driveSubsystem));
     
     JoystickButton IntakeSpeed = new JoystickButton(driverJoystick, 4);
-    IntakeSpeed.toggleWhenActive(new RunCommand(() -> driveSubsystem.pivotCartesian(driverJoystick.getX(),
-      -driverJoystick.getY(), driverJoystick.getZ(), 0.45), driveSubsystem));
+    IntakeSpeed.toggleWhenActive(new RunCommand(() -> driveSubsystem.pivotCartesian(-driverJoystick.getX(),
+      driverJoystick.getY(), driverJoystick.getZ(), 0.45), driveSubsystem));
 
     // TODO: Move to the secondary driver control system
     // Binds button 5 to control Limelight LEDs

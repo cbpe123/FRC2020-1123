@@ -44,11 +44,11 @@ public class RotateToGoal extends CommandBase {
   public void execute() {
       // RobotContainer.getInstance().intakeSubsystem.IntakeSlow();
       if(RobotContainer.getInstance().Limelight.getX()>0){
-        RobotContainer.getInstance().driveSubsystem.driveCartesian(0, 0, 1, 0.3);
+        RobotContainer.getInstance().driveSubsystem.driveCartesian(0, 0, 1, 0.1);
       }
       
       if(RobotContainer.getInstance().Limelight.getX()<0){
-        RobotContainer.getInstance().driveSubsystem.driveCartesian(0, 0, -1, 0.3);
+        RobotContainer.getInstance().driveSubsystem.driveCartesian(0, 0, -1, 0.1);
       }
   }
 
@@ -61,7 +61,7 @@ public class RotateToGoal extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(RobotContainer.getInstance().Limelight.getX()<0.3 && RobotContainer.getInstance().Limelight.getX()>-0.3){
+    if(RobotContainer.getInstance().Limelight.getX()<0.9 && RobotContainer.getInstance().Limelight.getX()>-0.9){
       return true;
     }
     return false;

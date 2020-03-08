@@ -84,44 +84,44 @@ public class RobotContainer {
 
 
 
-  public Command getAutonomousCommandInt() {
-    SmartDashboard.putNumber("Auto", autonomous);
-    if(autonomous == 1){
-      logger.info("returning Autonomous 1");
-      return new AutonomousHigh(driveSubsystem);
-    }
-    if(autonomous == 2){
-      logger.info("returning Autonomous 2");
-    }
-    if(autonomous == 3){
-      logger.info("returning Autonomous 3");
-    }
-    return new AutonomousCommandLowGoalShoot(driveSubsystem);
-    //return new AutonomousHigh(driveSubsystem);
-  }
+  // public Command getAutonomousCommandInt() {
+  //   SmartDashboard.putNumber("Auto", autonomous);
+  //   if(autonomous == 1){
+  //     logger.info("returning Autonomous 1");
+  //     return new AutonomousHigh(driveSubsystem);
+  //   }
+  //   if(autonomous == 2){
+  //     logger.info("returning Autonomous 2");
+  //   }
+  //   if(autonomous == 3){
+  //     logger.info("returning Autonomous 3");
+  //   }
+  //   return new AutonomousCommandLowGoalShoot(driveSubsystem);
+  //   //return new AutonomousHigh(driveSubsystem);
+  // }
 
-  public Command getAutonomousCommandString() {
-    if(autoString.equals("high")){
-      logger.info("returning Autonomous 1");
-      return new AutonomousHigh(driveSubsystem);
-    }
-    if(autoString.equals("low")){
-      logger.info("returning Autonomous 2");
-      return new AutonomousCommandLowGoalShoot(driveSubsystem);
-    }
-    return new AutonomousCommandLowGoalShoot(driveSubsystem);
-    //return new AutonomousHigh(driveSubsystem);
-  }
+  // public Command getAutonomousCommandString() {
+  //   if(autoString.equals("high")){
+  //     logger.info("returning Autonomous 1");
+  //     return new AutonomousHigh(driveSubsystem);
+  //   }
+  //   if(autoString.equals("low")){
+  //     logger.info("returning Autonomous 2");
+  //     return new AutonomousCommandLowGoalShoot(driveSubsystem);
+  //   }
+  //   return new AutonomousCommandLowGoalShoot(driveSubsystem);
+  //   //return new AutonomousHigh(driveSubsystem);
+  // }
 
-  public void setAutonomousCommand(int NumberOfCommand){
-    autonomous = NumberOfCommand;
-  }
+  // public void setAutonomousCommand(int NumberOfCommand){
+  //   autonomous = NumberOfCommand;
+  // }
 
-  public int getAutoNum() {
-    return autonomous;
-  }
+  // public int getAutoNum() {
+  //   return autonomous;
+  // }
 
-  public void setAutoString(String strAdd) {
-    autoString = strAdd;
-  }
+  // public void setAutoString(String strAdd) {
+  //   autoString = strAdd;
+  // }
 }

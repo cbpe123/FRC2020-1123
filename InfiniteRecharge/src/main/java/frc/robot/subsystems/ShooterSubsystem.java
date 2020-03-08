@@ -86,14 +86,14 @@ public class ShooterSubsystem extends SubsystemBase {
     // motorSetPoint = desiredSpeed;
     // motorA.set(ControlMode.Velocity, motorSetPoint);
     // motorB.set(ControlMode.Velocity, motorSetPoint);
-    if(motorA.getSelectedSensorVelocity()< 13000){
-      motorA.set(ControlMode.PercentOutput, 1);
-      motorB.set(ControlMode.PercentOutput, 1);
-    }
-    else{
+    // if(motorA.getSelectedSensorVelocity()< 13000){
+    //   motorA.set(ControlMode.PercentOutput, 1);
+    //   motorB.set(ControlMode.PercentOutput, 1);
+    // }
+    // else{
       motorA.set(ControlMode.PercentOutput, motorSetPoint/10000);
       motorB.set(ControlMode.PercentOutput, motorSetPoint/10000);
-    }
+    // }
 
     // if(motorA.getSelectedSensorVelocity()<motorSetPoint){
     //   motorA.set(ControlMode.PercentOutput, motorA.getMotorOutputPercent() *1.1);
@@ -142,7 +142,7 @@ public class ShooterSubsystem extends SubsystemBase {
       logger.info("Got to Load Ball in FireBallAndRetract");
     }
 
-    if(Time - TimeSinceBallFire > 100){
+    if(Time - TimeSinceBallFire > 160){
       FireBall = true;
       logger.info("Got to fireBall Boolean in FireBallAndRetract" + FireBall);
     }
@@ -164,7 +164,7 @@ public class ShooterSubsystem extends SubsystemBase {
       logger.info("Got to Load Ball in FireBallAndRetract");
     }
 
-    if(Time - TimeSinceBallFire > 210){
+    if(Time - TimeSinceBallFire > 220){
       FireBall = true;
       logger.info("Got to fireBall Boolean in FireBallAndRetract" + FireBall);
     }

@@ -36,6 +36,8 @@ public class Robot extends TimedRobot {
 
     // By calling getInstance the RobotContainer will construct itself
     RobotContainer.getInstance();
+
+    SmartDashboard.putString("Pi Camera", "http://frcvision.local/");
   }
 
   /**
@@ -48,7 +50,7 @@ public class Robot extends TimedRobot {
     // This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    SmartDashboard.putNumber("Auto", RobotContainer.getInstance().getAutoNum());
+    // SmartDashboard.putNumber("Auto", RobotContainer.getInstance().getAutoNum());
   }
 
   /**
@@ -80,8 +82,8 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().cancelAll();
     logger.info("All prior scheduled commands are cancelled.");
 
-    String temp = DashboardControlSystem.getAutoStr();
-    RobotContainer.getInstance().setAutoString(temp);
+    // String temp = DashboardControlSystem.getAutoStr();
+    // RobotContainer.getInstance().setAutoString(temp);
 
     Command m_autonomousCommand = RobotContainer.getInstance().getAutonomousCommand();
     if (m_autonomousCommand != null) {
@@ -121,11 +123,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     //logger.info("The robot has entered teleop periodic.");
-    // This makes sure that the autonomous stops running when
-    // teleop starts running.
-    if (RobotContainer.getInstance().getAutonomousCommand() != null) {
-      RobotContainer.getInstance().getAutonomousCommand().cancel();
-    }
 
     CommandScheduler.getInstance().run();
     //logger.info("The command scheduler is running.");

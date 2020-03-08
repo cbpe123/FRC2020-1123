@@ -31,21 +31,16 @@ public class ReleaseWinchCommand extends CommandBase {
     // TODO: Retrieve the desired motor speed
     RobotContainer.getInstance().Climber.OpenWinch();
     // logger.info("In StartShooterMotorExecute");
-    time++;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(time>3){
-      return true;
-    }
     return false;
   }
 }

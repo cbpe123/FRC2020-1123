@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 
 import frc.robot.RobotContainer;
+import frc.robot.DashboardControlSystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -29,7 +30,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private CANSparkMax motorB = new CANSparkMax(Constants.ClimberMotorRightCanID, MotorType.kBrushless);
   private DoubleSolenoid ClimbSolenoid = new DoubleSolenoid(Constants.ClimberPCM,
       Constants.ClimberSolenoidForward, Constants.ClimberSolenoidReverse);
-  private double motorSetPoint = -0.3;
+  private double motorSetPoint = 1;
   private boolean subsystemActive = false;
 
   int Time = 0;
@@ -45,13 +46,14 @@ public class ClimberSubsystem extends SubsystemBase {
 
     // TODO: Set motor current limits
 
-    ClimbSolenoid.set(Value.kReverse);
+    ClimbSolenoid.set(Value.kForward);
   }
 
   public void SpinMotorTogetherUp() {
+    OpenWinch();
     motorA.set(motorSetPoint);
     motorB.set(motorSetPoint);
-
+    logger.info("Both going up");
 
     subsystemActive = true;
 
@@ -89,18 +91,29 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void SpinMotorADown(){
+    OpenWinch();
     motorA.set(-motorSetPoint);
   }
+
+  public void SpinMotorADownSlow(){
+    motorA.set(-motorSetPoint/2);
+  }
+
   public void StopMotorA(){
     motorA.set(0);
   }
 
   public void SpinMotorBUp(){
+    OpenWinch();
     motorB.set(motorSetPoint);
   }
 
   public void SpinMotorBDown(){
     motorB.set(-motorSetPoint);
+  }
+
+  public void SpinMotorBDownSlow(){
+    motorB.set(-motorSetPoint/2);
   }
 
   public void StopMotorB(){
@@ -128,11 +141,13 @@ public class ClimberSubsystem extends SubsystemBase {
     // TODO: Update dashboard motor speed via NetworkTables
     SmartDashboard.putNumber("Climber Motor 1 RPM ", motorAEncoder.getVelocity());
     SmartDashboard.putNumber("Climber Motor 2 RPM ", motorBEncoder.getVelocity());
-    if(Timer.getFPGATimestamp()-StartTime>=118){
-      CloseWinch();
-    }
+    // if(Timer.getFPGATimestamp()-StartTime>=118){
+    //   CloseWinch();
+    // }
     
-    SmartDashboard.putNumber("Calculated match time", Timer.getFPGATimestamp()-StartTime);
+    int intTime = (int)(135.0-(Timer.getFPGATimestamp()-StartTime));
+    SmartDashboard.putNumber("Time Left", intTime);
+    DashboardControlSystem.putTimeRemaining(intTime);
     // logger.info("In Climber subsystem periodic");
   }
 

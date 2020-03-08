@@ -20,6 +20,12 @@ public class DashboardControlSystem {
   private static NetworkTableEntry maxSpeed;
   private static NetworkTableEntry autoNum;
 
+  private static NetworkTableEntry teleTime;
+  private static NetworkTableEntry endTime;
+
+  private static ShuffleboardTab teleopTab;
+  private static ShuffleboardTab endgameTab;
+
   public static void initialize() {
     Logger logger = Logger.getLogger(frc.robot.DashboardControlSystem.class.getName());
 
@@ -32,7 +38,7 @@ public class DashboardControlSystem {
     // .withWidget(BuiltInWidgets.kNumberBar)
     // .getEntry();
 
-    ShuffleboardTab teleopTab = Shuffleboard.getTab("Teleop");
+    teleopTab = Shuffleboard.getTab("Teleop");
     // teleopTab.add("Limelight", new LimelightCommand(new LimelightSubsystem()));
     // teleopTab.add("Intake Extend", new ExtendIntakePiston());
     // teleopTab.add("Intake Retract", new RetractIntakePiston());
@@ -59,12 +65,12 @@ public class DashboardControlSystem {
     motorSpeed.add("Decrease Shooter Motor Speed 1000", new DecreaseShooterMotorSpeed1000());
     motorSpeed.add("High Goal Speed Set", new SetShooterMotorSpeedHighGoal());
 
-    maxSpeed = motorSpeed.add("Speed Slider", 1)
-      .withWidget(BuiltInWidgets.kNumberSlider)
-      .withProperties(Map.of("min", 0, "max", 1))
-      .getEntry();
+    // maxSpeed = motorSpeed.add("Speed Slider", 1)
+    //   .withWidget(BuiltInWidgets.kNumberSlider)
+    //   .withProperties(Map.of("min", 0, "max", 1))
+    //   .getEntry();
 
-    ShuffleboardLayout ramControl = teleopTab.getLayout("Ball Ram", BuiltInLayouts.kList)
+    ShuffleboardLayout ramControl = teleopTab.getLayout("Shooter Stuffz", BuiltInLayouts.kList)
       .withPosition(4, 0).withSize(2, 3)
       .withProperties(Map.of("Label Position", "HIDDEN"));
 
@@ -86,25 +92,99 @@ public class DashboardControlSystem {
     Misc.add("Intake Retract", new RetractIntakePiston());
     Misc.add("Calibrate Gyro", new CalibrateGyro());
 
-    ShuffleboardTab endgameTab = Shuffleboard.getTab("Endgame");
-    endgameTab.add("Deploy hook", false);
-    endgameTab.add("Winch left", false);
-    endgameTab.add("Winch right", false);
-    endgameTab.add("Start Climber Motors Together Up" , new StartClimberMotorsTogetherUpCommand());
-    endgameTab.add("Stop Climber Motors Together" , new StopClimberMotorsTogetherCommand());
-    endgameTab.add("Start Climber Motors Together Down" , new StartClimberMotorsTogetherDownCommand());
+    teleTime = teleopTab.add("Time Left", 135)
+      .withWidget(BuiltInWidgets.kDial)
+      .withProperties(Map.of("min", 0, "max", 135))
+      .withPosition(0, 2).withSize(2, 1)
+      .getEntry();
+
+    endgameTab = Shuffleboard.getTab("Endgame");
+    // endgameTab.add("Deploy hook", false);
+    // endgameTab.add("Winch left", false);
+    // endgameTab.add("Winch right", false);
+    // endgameTab.add("Start Climber Motors Together Up" , new StartClimberMotorsTogetherUpCommand());
+    // endgameTab.add("Stop Climber Motors Together" , new StopClimberMotorsTogetherCommand());
+    // endgameTab.add("Start Climber Motors Together Down" , new StartClimberMotorsTogetherDownCommand());
     // endgameTab.add("Start Climber Motors Together Down Slow" , new StartClimberMotorsTogetherDownSlowCommand());
-    endgameTab.add("Start Left Climber Up" , new StartClimberMotorAUpCommand());
-    endgameTab.add("Stop Left Climber" , new StopClimberMotorACommand());
-    endgameTab.add("Start Left Climber Down" , new StartClimberMotorADownCommand());
-    endgameTab.add("Start Right Climber Up" , new StartClimberMotorBUpCommand());
-    endgameTab.add("Stop Right Climber" , new StopClimberMotorBCommand());
-    endgameTab.add("Start Right Climber Down" , new StartClimberMotorBDownCommand());
-    endgameTab.add("Release the Winch", new ReleaseWinchCommand());
-    endgameTab.add("Engage the Winch", new EngageWinchCommand());
-    endgameTab.add("Go Right Slowly", new ClimbingMovingRight());
-    endgameTab.add("Go Left Slowly", new ClimbingMovingLeft());
-    endgameTab.add("Stop Drivetrain", new ClimbingMovingStop());
+    // endgameTab.add("Start Left Climber Up" , new StartClimberMotorAUpCommand());
+    // endgameTab.add("Stop Left Climber" , new StopClimberMotorACommand());
+    // endgameTab.add("Start Left Climber Down" , new StartClimberMotorADownCommand());
+    // endgameTab.add("Start Right Climber Up" , new StartClimberMotorBUpCommand());
+    // endgameTab.add("Stop Right Climber" , new StopClimberMotorBCommand());
+    // endgameTab.add("Start Right Climber Down" , new StartClimberMotorBDownCommand());
+    // endgameTab.add("Release the Winch", new ReleaseWinchCommand());
+    // endgameTab.add("Engage the Winch", new EngageWinchCommand());
+    // endgameTab.add("Go Right Slowly", new ClimbingMovingRight());
+    // endgameTab.add("Go Left Slowly", new ClimbingMovingLeft());
+    // endgameTab.add("Stop Drivetrain", new ClimbingMovingStop());
+    // ShuffleboardLayout BothMotors = endgameTab.getLayout("BothMotors", BuiltInLayouts.kList)
+    //   .withPosition(0, 0).withSize(3, 2)
+    //   .withProperties(Map.of("Label Position", "HIDDEN"));
+    endgameTab.add("Up Together" , new StartClimberMotorsTogetherUpCommand())
+    .withPosition(1, 0).withSize(2, 1)
+    .withProperties(Map.of("Label Position", "HIDDEN"));
+    endgameTab.add("Stop Together" , new StopClimberMotorsTogetherCommand())
+    .withPosition(1, 1).withSize(2, 1)
+    .withProperties(Map.of("Label Position", "HIDDEN"));
+    endgameTab.add("Down Together" , new StartClimberMotorsTogetherDownCommand())
+    .withPosition(1, 2).withSize(2, 1)
+    .withProperties(Map.of("Label Position", "HIDDEN"));
+
+    // ShuffleboardLayout LeftMotor = endgameTab.getLayout("LeftMotor", BuiltInLayouts.kList)
+    //   .withPosition(3, 0).withSize(2, 2)
+    //   .withProperties(Map.of("Label Position", "HIDDEN"));
+    endgameTab.add("Left Up" , new StartClimberMotorAUpCommand())
+    .withPosition(3, 1).withSize(2, 1)
+    .withProperties(Map.of("Label Position", "HIDDEN"));
+    endgameTab.add("Stop Left Climber" , new StopClimberMotorACommand())
+    .withPosition(3, 2).withSize(2, 1)
+    .withProperties(Map.of("Label Position", "HIDDEN"));
+    endgameTab.add("Left Down" , new StartClimberMotorADownCommand())
+    .withPosition(3, 3).withSize(2, 1)
+    .withProperties(Map.of("Label Position", "HIDDEN"));
+    endgameTab.add("Left Down Slow" , new StartClimberMotorADownCommandSlow())
+    .withPosition(3, 4).withSize(2, 1)
+    .withProperties(Map.of("Label Position", "HIDDEN"));
+
+    // ShuffleboardLayout RightMotor = endgameTab.getLayout("RightMotor", BuiltInLayouts.kList)
+    //   .withPosition(5, 0).withSize(2, 2)
+    //   .withProperties(Map.of("Label Position", "HIDDEN"));
+    endgameTab.add("Right Up" , new StartClimberMotorBUpCommand())
+    .withPosition(5, 0).withSize(2, 1)
+    .withProperties(Map.of("Label Position", "HIDDEN"));
+    endgameTab.add("Stop Right Climber" , new StopClimberMotorBCommand())
+    .withPosition(5, 1).withSize(2, 1)
+    .withProperties(Map.of("Label Position", "HIDDEN"));
+    endgameTab.add("Right Down" , new StartClimberMotorBDownCommand())
+    .withPosition(5, 2).withSize(2, 1)
+    .withProperties(Map.of("Label Position", "HIDDEN"));
+    endgameTab.add("Right Down Slow" , new StartClimberMotorBDownCommandSlow())
+    .withPosition(5, 3).withSize(2, 1)
+    .withProperties(Map.of("Label Position", "HIDDEN"));
+
+    // ShuffleboardLayout Winches = endgameTab.getLayout("Winches", BuiltInLayouts.kList)
+    endgameTab.add("Disable Ratchet", new ReleaseWinchCommand())
+    .withPosition(7, 0).withSize(2, 1)
+    .withProperties(Map.of("Label Position", "HIDDEN"));
+    endgameTab.add("Enable Ratchet", new EngageWinchCommand())
+    .withPosition(7, 1).withSize(2, 1)
+    .withProperties(Map.of("Label Position", "HIDDEN"));
+
+    ShuffleboardLayout Driving = endgameTab.getLayout("Driving", BuiltInLayouts.kList)
+    .withPosition(7, 2).withSize(2, 2)
+    .withProperties(Map.of("Label Position", "HIDDEN"));
+    Driving.add("Go Right Slowly", new ClimbingMovingRight());
+      // .withPosition(7, 0).withSize(2, 1)
+      // .withProperties(Map.of("Label Position", "HIDDEN"));
+    Driving.add("Go Left Slowly", new ClimbingMovingLeft());
+    Driving.add("Stop Drivetrain", new ClimbingMovingStop());
+
+    endTime = endgameTab.add("Time Left", 135)
+      .withWidget(BuiltInWidgets.kDial)
+      .withProperties(Map.of("min", 0, "max", 135))
+      .withPosition(0, 2).withSize(2, 1)
+      .getEntry();
+
     // TODO: Add controls for end game climb
     // ShuffleboardTab EndGame = Shuffleboard.getTab("Endgame");
     // EndGame.add("Start Climber Motors Together" , new StartClimberMotorsTogetherCommand());
@@ -114,7 +194,12 @@ public class DashboardControlSystem {
     // EndGame.add("Start Right Climber" , new StartClimberMotorBCommand());
     // EndGame.add("Stop Right Climber" , new StopClimberMotorBCommand());
 
-    
+    ShuffleboardTab camTab = Shuffleboard.getTab("piCamera");
+    NetworkTableEntry piTable = camTab.add("Pi Camera", true)
+      .withWidget(BuiltInWidgets.kCameraStream)
+      //.withProperties(Map.of("min", 0, "max", 135))
+      .withPosition(0, 0).withSize(2, 2)
+      .getEntry();
   }
   public static double getSliderSpeed() {
     double shooterSpeed = maxSpeed.getDouble(0.0);
@@ -122,13 +207,18 @@ public class DashboardControlSystem {
     return shooterSpeed;
   }
 
-  public static String getAutoStr() {
-    String autoStr = autoNum.getString("high");
-    SmartDashboard.putString("AutoNum", autoStr);
-    return autoStr;
-  }
+  // public static String getAutoStr() {
+  //   String autoStr = autoNum.getString("high");
+  //   SmartDashboard.putString("AutoNum", autoStr);
+  //   return autoStr;
+  // }
 
   public static void PutIsBox(boolean boo){
     SmartDashboard.putBoolean("Limelight Box", boo);
+  }
+
+  public static void putTimeRemaining(double time){
+    teleTime.forceSetDouble(time);
+    endTime.forceSetDouble(time);
   }
 }
