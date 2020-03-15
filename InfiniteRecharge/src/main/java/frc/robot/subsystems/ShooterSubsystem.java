@@ -236,4 +236,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setDValue(double dVal) {
     motorA.config_kD(0, dVal, ConfigTimeOut);
   }
+  public void setFireBall(){
+    FireBall = true;
+  }
 }

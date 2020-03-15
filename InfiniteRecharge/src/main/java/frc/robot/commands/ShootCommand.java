@@ -62,6 +62,7 @@ public class ShootCommand extends CommandBase {
     RobotContainer.getInstance().shooter.LoadBall();
     RobotContainer.getInstance().intakeSubsystem.Stop();
     RobotContainer.getInstance().shooter.ResetNumberOfBallsFired();
+    
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").forceSetNumber(1);
     time = 0;
   }

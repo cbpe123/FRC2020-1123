@@ -61,7 +61,7 @@ public class RotateToGoal extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(RobotContainer.getInstance().Limelight.getX()<0.9 && RobotContainer.getInstance().Limelight.getX()>-0.9){
+    if(RobotContainer.getInstance().Limelight.getX()<0.5 && RobotContainer.getInstance().Limelight.getX()>-1.3){
       return true;
     }
     return false;

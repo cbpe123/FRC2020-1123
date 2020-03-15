@@ -51,13 +51,15 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void SpinMotorTogetherUp() {
     OpenWinch();
-    motorA.set(motorSetPoint);
-    motorB.set(motorSetPoint);
-    logger.info("Both going up");
-
+    if(Time > 40){
+      motorA.set(motorSetPoint);
+      motorB.set(motorSetPoint);
+      logger.info("Both going up");
+    }
     subsystemActive = true;
 
     logger.info("Climber trying to spin at " + motorSetPoint);
+    logger.info("Both up");
     // SmartDashboard.putNumber("Climber Motor 1 RPM ", motorAEncoder.getVelocity());
     // SmartDashboard.putNumber("Climber Motor 2 RPM ", motorBEncoder.getVelocity());
   }
@@ -70,6 +72,7 @@ public class ClimberSubsystem extends SubsystemBase {
     subsystemActive = true;
 
     logger.info("Climber trying to spin at " + -motorSetPoint);
+    logger.info("Both down");
     // SmartDashboard.putNumber("Climber Motor 1 RPM ", motorAEncoder.getVelocity());
     // SmartDashboard.putNumber("Climber Motor 2 RPM ", motorBEncoder.getVelocity());
   }
@@ -93,6 +96,7 @@ public class ClimberSubsystem extends SubsystemBase {
   public void SpinMotorADown(){
     OpenWinch();
     motorA.set(-motorSetPoint);
+   
   }
 
   public void SpinMotorADownSlow(){
@@ -123,16 +127,19 @@ public class ClimberSubsystem extends SubsystemBase {
   public void OpenWinch(){
     // if(Timer.getFPGATimestamp()-StartTime > 89){
       ClimbSolenoid.set(Value.kForward);
+      logger.info("winch opened");
     // }
   }  
   
   public void CloseWinch(){
     ClimbSolenoid.set(Value.kReverse);
+    logger.info("winch closed");
   }
 
   public void Stop() {
     motorA.set(0);
     motorB.set(0);
+    Time = 0;
     subsystemActive = false;
   }
 
@@ -149,6 +156,7 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Time Left", intTime);
     DashboardControlSystem.putTimeRemaining(intTime);
     // logger.info("In Climber subsystem periodic");
+    Time++;
   }
 
   public boolean isActive(){
@@ -165,5 +173,9 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void setStartTime(double time){
     StartTime = time;
+  }
+
+  public void resetTime(){
+    Time = 0;
   }
 }

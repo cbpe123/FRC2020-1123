@@ -22,6 +22,7 @@ public class StartClimberMotorsTogetherUpCommand extends CommandBase {
   public void initialize() {
     // logger.info("Activating shooter motors.");
     // TODO: Retrieve the desired motor speed
+    RobotContainer.getInstance().Climber.resetTime();
     RobotContainer.getInstance().Climber.SpinMotorTogetherUp();
   }
 
@@ -31,7 +32,6 @@ public class StartClimberMotorsTogetherUpCommand extends CommandBase {
     // TODO: Retrieve the desired motor speed
     RobotContainer.getInstance().Climber.SpinMotorTogetherUp();
     // logger.info("In StartShooterMotorExecute");
-    time++;
   }
 
   // Called once the command ends or is interrupted.
@@ -43,9 +43,6 @@ public class StartClimberMotorsTogetherUpCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(time>3){
-      return true;
-    }
     return false;
   }
 }

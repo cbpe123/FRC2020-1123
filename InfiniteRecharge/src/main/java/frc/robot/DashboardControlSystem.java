@@ -71,16 +71,27 @@ public class DashboardControlSystem {
     //   .getEntry();
 
     ShuffleboardLayout ramControl = teleopTab.getLayout("Shooter Stuffz", BuiltInLayouts.kList)
-      .withPosition(4, 0).withSize(2, 3)
+      .withPosition(6, 3).withSize(2, 1)
       .withProperties(Map.of("Label Position", "HIDDEN"));
 
-    ramControl.add("Shoot", new ShootOneBallCommand());
+    teleopTab.add("Shoot One Ball", new ShootOneBallCommand())
+      .withPosition(4, 1).withSize(2, 1)
+      .withProperties(Map.of("Label Position", "HIDDEN"));
+
     ramControl.add("Load", new ShooterLoadCommand());
-    ramControl.add("Shoot Lower Goal All", new LowerGoalShootCommand());
-    ramControl.add("Shoot Lower Goal Shoot 10 Balls", new LowerGoalShootALotCommand());
-    ramControl.add("Shoot High Goal All", new ShootCommand());
+    ramControl.add("Shoot Lower Goal 6", new LowerGoalShootCommand());
+    // .withPosition(4, 3).withSize(2, 1)
+    //   .withProperties(Map.of("Label Position", "HIDDEN"));
+      ramControl.add("Shoot Lower Goal 10 Balls", new LowerGoalShootALotCommand());
+    // .withPosition(4, 2).withSize(2, 1)
+    //   .withProperties(Map.of("Label Position", "HIDDEN"));
+    teleopTab.add("Shoot High Goal All", new ShootCommand())
+    .withPosition(4, 0).withSize(2, 1)
+      .withProperties(Map.of("Label Position", "HIDDEN"));
     ramControl.add("Line Up on goal", new LineUpOnGoal());
     ramControl.add("Rotate to Goal", new RotateToGoal());
+    // .withPosition(6, 4).withSize(2, 1)
+    //   .withProperties(Map.of("Label Position", "HIDDEN"));
     ramControl.add("Shoot High And Rotate to goal", new ShootHighAndAimOnGoal());
 
     ShuffleboardLayout Misc = teleopTab.getLayout("Misc", BuiltInLayouts.kList)
